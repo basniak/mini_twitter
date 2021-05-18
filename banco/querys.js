@@ -47,7 +47,7 @@ const createUser = (request, response) => {
   const { name, email } = request.body;
 
   pool.query(
-    "INSERT INTO users (name, email) VALUES ($1, $2)",
+    "INSERT INTO users (username, pass) VALUES ($1, $2)",
     [name, email],
     (error, results) => {
       if (error) {
@@ -86,7 +86,7 @@ const deleteUser = (request, response) => {
 };
 
 const getPosts = (request, response) => {
-  pool.query("SELECT * FROM posts ORDER BY id ASC", (error, results) => {
+  pool.query("SELECT users.*, posts.* FROM posts inner join users on (users.id = posts.user_id)  ORDER BY posts.createdat ASC", (error, results) => {
     if (error) {
       throw error;
     }

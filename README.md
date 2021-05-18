@@ -35,7 +35,7 @@ INSERT INTO users (id, username, pass)
 
 ```
 CREATE TABLE "posts" (
-	"id" INTEGER NOT NULL,
+		"id" INTEGER NOT NULL DEFAULT 'nextval(''test_id_seq''::regclass)',
 	"user_id" INTEGER NOT NULL,
 	"tweet" VARCHAR(140) NOT NULL,
 	"createdat" TIMESTAMP NOT NULL,
