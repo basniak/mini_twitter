@@ -10,7 +10,7 @@ const url = require("url");
 //   database: params.pathname.split("/")[1],
 //   ssl: true,
 // };
-const connectionString = process.env.DATABASE_URL || "localhost:5432"
+const connectionString = process.env.DATABASE_URL || "localhost:5432";
 const config = {
   connectionString: connectionString,
   ssl: { rejectUnauthorized: false },
@@ -85,10 +85,36 @@ const deleteUser = (request, response) => {
   });
 };
 
+const getPosts = (request, response) => {
+  pool.query("SELECT * FROM posts ORDER BY id ASC", (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
+const getPostsByIdUser = (request, response) => {
+  const id = parseInt(request.params.id);
+
+  pool.query(
+    "SELECT * FROM posts WHERE user_id = $1",
+    [id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 module.exports = {
   getUsers,
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+  getPosts,
+  getPostsByIdUser,
 };
