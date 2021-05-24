@@ -12,6 +12,9 @@ https://www.positronx.io/deploy-angular-app-to-production-with-firebase-hosting/
 Uma instância do banco de dados do postgresql no heroku.
 O Heroku foi utilizado para hospedagem da API, com integração contínua com o repositório do projeto.
 
+publicado:
+https://minitwitter-13a22.web.app/
+
 ## backend
 
 api mini tweet
