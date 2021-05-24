@@ -6,3 +6,5 @@ coverage
 build/
 package-lock.json
 yarn.lock
+firebase-service-acount.json
+firebase-service-account.json

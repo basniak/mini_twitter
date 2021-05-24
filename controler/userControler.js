@@ -22,17 +22,18 @@ const getUsers = (request, response) => {
 // };
 
 const createUser = (request, response) => {
-  const { name, email } = request.body;
+  const { username, email, uid } = request.body;
 
   pool.query(
-    "INSERT INTO users (username, pass) VALUES ($1, $2)",
-    [name, email],
+    "INSERT INTO users (username, email, uid) VALUES ($1, $2, $3)",
+    [username, email, uid],
     (error, results) => {
       if (error) {
         // throw error;
         response.status(500).json(error);
+      } else {
+        response.status(201).json({ sucesso: `User created with uid: ${uid}` });
       }
-      response.status(201).send(`User added with ID: ${result.insertId}`);
     }
   );
 };

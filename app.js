@@ -11,7 +11,15 @@ const {
   createUser,
   updateUser,
 } = require("./controler/userControler");
-const { getPosts, getPostsByIdUser } = require("./controler/postControler");
+const {
+  getPosts,
+  getPostsByIdUser,
+  createPosts,
+} = require("./controler/postControler");
+const {
+  decodeFirebaseIdToken,
+  isAuthorized,
+} = require("./middleware/auth.middleware");
 
 app.use(bodyParser.json());
 app.use(
@@ -25,17 +33,18 @@ app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API 🐱‍🏍" });
 });
 
-app.get("/users", getUsers);
+app.get("/users", decodeFirebaseIdToken, isAuthorized, getUsers);
 // app.get("/users/:id", getUserById);
 app.post("/users", createUser);
-app.put("/users/:id", updateUser);
+// app.put("/users/:id", updateUser);
 // app.delete("/users/:id", deleteUser);
 
 /**
  * Agora as postagens
  */
-app.get("/posts", getPosts);
-app.get("/posts/:id", getPostsByIdUser);
+app.get("/posts", decodeFirebaseIdToken, isAuthorized, getPosts);
+// app.get("/posts/:id",decodeFirebaseIdToken, isAuthorized,  getPostsByIdUser);
+app.post("/posts", decodeFirebaseIdToken, isAuthorized, createPosts);
 
 app.listen(port, () => {
   console.log(`App running on port ${port} 🐱‍🏍.`);

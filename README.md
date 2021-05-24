@@ -1,11 +1,11 @@
 Vinicius A. Basniak. RA: 1771345
 Ykaro J. S. Andrade. RA: 1750607
 
-Trabalho desenvolvido para PROJETO-2 da disciplina de Web 2, do curso de Engenharia de Software, 
+Trabalho desenvolvido para PROJETO-2 da disciplina de Web 2, do curso de Engenharia de Software,
 da UTFPR.
 Para ultilização do firebase usamos o seguinte tutorial abaixo.
 https://www.positronx.io/full-angular-7-firebase-authentication-system/
-A ferramenta do firebase foi utilizada para hospedagem do front-end e 
+A ferramenta do firebase foi utilizada para hospedagem do front-end e
 autenticação dos usuários.
 Foi utilizado o seguinte tutorial abaixo para fazer a hospedagem do front-end.
 https://www.positronx.io/deploy-angular-app-to-production-with-firebase-hosting/
@@ -20,40 +20,31 @@ api mini tweet
 
 Banco de dados
 
-```
-Host
-ec2-184-73-198-174.compute-1.amazonaws.com
-heroku pg:psql postgresql-curved-71184 --app tweetbr
-```
+Postgres versão 10.17
 
-tabela usuario
+Script de criação das tabelas
 
 ```
-CREATE TABLE "users" (
-	"id" INTEGER NOT NULL,
-	"username" VARCHAR(16) NOT NULL,
-	"pass" VARCHAR(123) NOT NULL,
-	"createdat" TIMESTAMP NOT NULL,
-	PRIMARY KEY ("id")
+CREATE TABLE users (
+	id SERIAL ,
+	username VARCHAR(50) NOT NULL,
+	email VARCHAR(58) NOT NULL,
+	createdat TIMESTAMP  DEFAULT  CURRENT_TIMESTAMP,
+	uid VARCHAR(50) NOT NULL,
+	PRIMARY KEY (id),
+	 UNIQUE (username),
+	  UNIQUE (email),
+	   UNIQUE (uid)
 );
-```
 
-primeiro insert de test
+CREATE TABLE posts (
+	id SERIAL,
+	user_id INTEGER NOT NULL,
+	tweet VARCHAR(140) NOT NULL,
+	createdat  TIMESTAMP  DEFAULT  CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	CONSTRAINT "FK_posts_users" FOREIGN KEY (user_id) REFERENCES public.users (id) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+;
 
-```
-INSERT INTO users (id, username, pass)
-  VALUES (1, 'Jerry', 'jerry@example.com'), (2, 'George', 'george@example.com');
-```
-
-### tabela tweets
-
-```
-CREATE TABLE "posts" (
-		"id" INTEGER NOT NULL DEFAULT 'nextval(''test_id_seq''::regclass)',
-	"user_id" INTEGER NOT NULL,
-	"tweet" VARCHAR(140) NOT NULL,
-	"createdat" TIMESTAMP NOT NULL,
-	PRIMARY KEY ("id"),
-	CONSTRAINT "FK_posts_users" FOREIGN KEY ("user_id") REFERENCES "public"."users" ("id") ON UPDATE NO ACTION ON DELETE NO ACTION
-);
 ```
