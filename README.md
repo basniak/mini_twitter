@@ -15,6 +15,8 @@ O Heroku foi utilizado para hospedagem da API, com integração contínua com o 
 publicado:
 https://minitwitter-13a22.web.app/
 
+link da api: https://tweetbr.herokuapp.com/
+
 ## backend
 
 api mini tweet
