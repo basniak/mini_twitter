@@ -9,7 +9,7 @@ var serviceAccount = process.env.LOCAL
       type: process.env.TYPE,
       project_id: process.env.PROJECT_ID,
       private_key_id: process.env.PRIVATE_KEY_ID,
-      private_key: process.env.PRIVATE_KEY,
+       private_key: process.env.PRIVATE_KEY.replace(/\\n/g, "\n"),
       client_email:
         "firebase-adminsdk-n8aqh@minitwitter-13a22.iam.gserviceaccount.com",
       client_id: process.env.CLIENT_ID,
