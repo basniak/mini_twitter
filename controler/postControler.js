@@ -35,30 +35,33 @@ const getPostsByUID = async (uid) => {
 };
 const createPosts = (request, response) => {
   const { tweet } = request.body;
-  if (!tweet) response.status(500).json({ message: "Postagem invalida" });
-  getPostsByUID(request.user.uid)
-    .then((user) => {
-      if (user.rows.length) {
-        let id = user.rows[0].id;
-        pool.query(
-          "INSERT INTO posts (user_id, tweet) VALUES ($1, $2)",
-          [id, tweet],
-          (error, results) => {
-            if (error) {
-              // throw error;
-              response.status(500).json(error);
-            } else if (results) {
-              response.status(200).json({ message: `Post CRiADO: ${id}` });
+  if (!tweet) {
+    response.status(500).json({ message: "Postagem invalida" });
+  } else {
+    getPostsByUID(request.user.uid)
+      .then((user) => {
+        if (user.rows.length) {
+          let id = user.rows[0].id;
+          pool.query(
+            "INSERT INTO posts (user_id, tweet) VALUES ($1, $2)",
+            [id, tweet],
+            (error, results) => {
+              if (error) {
+                // throw error;
+                response.status(500).json(error);
+              } else if (results) {
+                response.status(200).json({ message: `Post CRiADO: ${id}` });
+              }
             }
-          }
-        );
-      } else {
-        response.status(500).json({ message: "Usuario não encontrado" });
-      }
-    })
-    .catch((er) => {
-      response.status(500).json(er);
-    });
+          );
+        } else {
+          response.status(500).json({ message: "Usuario não encontrado" });
+        }
+      })
+      .catch((er) => {
+        response.status(500).json(er);
+      });
+  }
 };
 exports.createPosts = createPosts;
 exports.getPostsByIdUser = getPostsByIdUser;
