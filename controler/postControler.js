@@ -35,6 +35,7 @@ const getPostsByUID = async (uid) => {
 };
 const createPosts = (request, response) => {
   const { tweet } = request.body;
+  if (!tweet) response.status(500).json({ message: "Postagem invalida" });
   getPostsByUID(request.user.uid)
     .then((user) => {
       if (user.rows.length) {
